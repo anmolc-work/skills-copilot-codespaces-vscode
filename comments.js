@@ -1,15 +1,21 @@
-// create web server
-// use express
-const express = require('express');
-const app = express();
-const port = 3000;
+// create web browser
+var webBrowser = new WebBrowser();
 
-// create a route
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-});
+// create a new comment
+var comment = new Comment("John Doe", "This is a comment");
 
-// start the server
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-});
+// add the comment to the web browser
+webBrowser.addComment(comment);
+
+// add another comment to the web browser
+var comment2 = new Comment("Jane Doe", "This is another comment");
+webBrowser.addComment(comment2);
+
+// display the comments on the web browser
+webBrowser.displayComments();
+
+// delete the first comment
+webBrowser.deleteComment(comment);
+
+// display the comments on the web browser
+webBrowser.displayComments();
