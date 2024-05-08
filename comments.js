@@ -1,21 +1,47 @@
-// create web browser
-var webBrowser = new WebBrowser();
+// Create web server with express
+// create a route to create a new comment
+// create a route to list all comments
+// create a route to get a single comment
+// create a route to update a comment
+// create a route to delete a comment
 
-// create a new comment
-var comment = new Comment("John Doe", "This is a comment");
+const express = require('express')
+const app = express()
+const bodyParser = require('body-parser')
+const comments = require('./comments')
 
-// add the comment to the web browser
-webBrowser.addComment(comment);
+app.use(bodyParser.json())
 
-// add another comment to the web browser
-var comment2 = new Comment("Jane Doe", "This is another comment");
-webBrowser.addComment(comment2);
+// create a route to create a new comment
+app.post('/comments', (req, res) => {
+  const comment = comments.create(req.body)
+  res.json(comment)
+})
 
-// display the comments on the web browser
-webBrowser.displayComments();
+// create a route to list all comments
+app.get('/comments', (req, res) => {
+  const allComments = comments.getAll()
+  res.json(allComments)
+})
 
-// delete the first comment
-webBrowser.deleteComment(comment);
+// create a route to get a single comment
+app.get('/comments/:id', (req, res) => {
+  const comment = comments.get(req.params.id)
+  res.json(comment)
+})
 
-// display the comments on the web browser
-webBrowser.displayComments();
+// create a route to update a comment
+app.put('/comments/:id', (req, res) => {
+  const comment = comments.update(req.params.id, req.body)
+  res.json(comment)
+})
+
+// create a route to delete a comment
+app.delete('/comments/:id', (req, res) => {
+  comments.delete(req.params.id)
+  res.json({ success: true })
+})
+
+app.listen(3000, () => {
+  console.log('Server is running')
+})
